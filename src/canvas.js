@@ -26,7 +26,9 @@ class Canvas extends Component {
     const heightLightColor = "#FFD480";
     const indexColor = "#F95959";
     const strokeColor = "#ADA6AB";
-    ctx.clearRect(0, 0, w, h);
+    const bgColor = "#FFF";
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, c.width, c.height);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = `${fontSize}px Helvetica`;
