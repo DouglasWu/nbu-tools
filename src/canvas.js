@@ -33,13 +33,13 @@ class Canvas extends Component {
     ctx.textBaseline = "middle";
     ctx.font = `${fontSize}px Helvetica`;
 
-    var texts = this.props.items;
-
     // five inner cirlces' centers
     var centerPos = [{x: centerX, y:centerY}];
     for(var i=Math.PI/4; i<Math.PI*2; i+=Math.PI/2) {
-      centerPos.push({x: centerX + 2*r*Math.cos(i),
-      y: centerY+2*r*Math.sin(i)});
+      centerPos.push({
+        x: centerX + 2*r*Math.cos(i),
+        y: centerY + 2*r*Math.sin(i)
+      });
     }
     const orders = [3, 2, 0, 4, 1];
     var textPos = [];
@@ -70,6 +70,7 @@ class Canvas extends Component {
     });
 
     // draw texts
+    const texts = this.props.items;
     textPos.forEach((e, idx) => {
       ctx.fillStyle=textColor;
       if(texts[idx])

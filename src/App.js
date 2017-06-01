@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button } from 'reactstrap'; //'react-materialize';
+import { Row, Col, Input, Button } from 'reactstrap';
 import Canvas from './canvas';
 import './App.css';
 
@@ -71,7 +71,6 @@ class App extends Component {
       <div>
         <Row>
           { this.renderInputs() }
-
         </Row>
         <Row style={{marginTop: '5px'}}>
           <Col md={{offset: 1}} xs={{size: 10, offset: 1}}>
