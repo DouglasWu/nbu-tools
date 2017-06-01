@@ -38,7 +38,7 @@ class App extends Component {
   download = () => {
     let link = document.createElement('a');
     link.href = this.refs.canvas.refs.canvas.toDataURL();
-    link.download = `nbu.png`;
+    link.download = `nbu_${new Date().getTime()}.png`;
     link.click();
   }
 
