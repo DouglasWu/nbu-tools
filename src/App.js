@@ -25,15 +25,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: Array(25).fill('')
+      items: this.getLocalStorage()||Array(25).fill('')
     };
+  }
+
+  setLocalStorage(items) {
+    localStorage.setItem("nbu-items", JSON.stringify(items));
+  }
+  getLocalStorage() {
+    return JSON.parse(localStorage.getItem("nbu-items"));
   }
 
   example = (id) => {
     this.setState({items: examples[id]});
+    this.setLocalStorage(examples[id]);
   }
   clearAll = () => {
-    this.setState({items: Array(25).fill('')});
+    const items = Array(25).fill('');
+    this.setState({ items });
+    this.setLocalStorage(items);
   }
   download = () => {
     let link = document.createElement('a');
@@ -41,16 +51,17 @@ class App extends Component {
     link.download = `nbu_${new Date().getTime()}.png`;
     link.click();
   }
-
   changeItems = (idx, value) => {
     var arr = this.state.items.slice();
     arr.splice(idx, 1, value);
     this.setState({items: arr});
+    this.setLocalStorage(arr);
   }
+
   renderInputs() {
     const arr = [1, 2, 3, 4, 5];
     return arr.map((num, i) => (
-      <Col md={{size: 2, offset: num==1?1:0}} xs={{size: 10, offset: 1}} key={i}>
+      <Col md={{size: 2, offset: num===1?1:0}} xs={{size: 10, offset: 1}} key={i}>
         {
           arr.map((e, j) => {
             const idx = (num-1)*5 + e - 1;
@@ -83,7 +94,10 @@ class App extends Component {
         </Row>
         <Row style={{marginTop: '15px'}}>
           <div className="canvas-wrapper">
-            <Canvas items={this.state.items} ref="canvas"/>
+            <Canvas
+              items={this.state.items}
+              ref="canvas"
+            />
           </div>
         </Row>
       </div>

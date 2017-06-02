@@ -76,7 +76,7 @@ class Canvas extends Component {
       if(texts[idx])
         ctx.fillText(`${texts[idx]}`, e.x, e.y);
       // draw key index
-      if(idx%5==2) {
+      if(idx%5===2) {
         ctx.fillStyle = indexColor;
         ctx.fillText(`${idx+1}.`, e.x-r+yOffset*1.8, e.y);
       }
