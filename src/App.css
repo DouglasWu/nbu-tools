@@ -1,3 +1,7 @@
+.app {
+  width: 100%;
+  overflow-x: hidden;
+}
 input.item-input {
   border: 0px solid rgba(0, 0, 0, 0.15);
   border-bottom: 1px solid rgba(0,0,0,0.25);

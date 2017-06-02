@@ -21,29 +21,35 @@ const examples = {
        '82148', '08651', '32823', '06647', '09384']
 }
 
+const NBU_ITEMS = 'nbu-items';
+const NBU_TITLE = 'nbu-title';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: this.getLocalStorage()||Array(25).fill('')
+      items: this.getLocalStorage(NBU_ITEMS)||Array(25).fill(''),
+      title: this.getLocalStorage(NBU_TITLE)||''
     };
   }
 
-  setLocalStorage(items) {
-    localStorage.setItem("nbu-items", JSON.stringify(items));
+  setLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem("nbu-items"));
+  getLocalStorage(key) {
+    return JSON.parse(localStorage.getItem(key));
   }
 
-  example = (id) => {
-    this.setState({items: examples[id]});
-    this.setLocalStorage(examples[id]);
+  example = (id, title) => {
+    this.setState({items: examples[id], title});
+    this.setLocalStorage(NBU_ITEMS, examples[id]);
+    this.setLocalStorage(NBU_TITLE, title);
   }
   clearAll = () => {
     const items = Array(25).fill('');
-    this.setState({ items });
-    this.setLocalStorage(items);
+    this.setState({ items, title:'' });
+    this.setLocalStorage(NBU_ITEMS, items);
+    this.setLocalStorage(NBU_TITLE, '');
   }
   download = () => {
     let link = document.createElement('a');
@@ -55,7 +61,11 @@ class App extends Component {
     var arr = this.state.items.slice();
     arr.splice(idx, 1, value);
     this.setState({items: arr});
-    this.setLocalStorage(arr);
+    this.setLocalStorage(NBU_ITEMS, arr);
+  }
+  changeTitle = (e) => {
+    this.setState({title: e.target.value});
+    this.setLocalStorage(NBU_TITLE, e.target.value);
   }
 
   renderInputs() {
@@ -79,15 +89,25 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="app">
+        <Row>
+          <Col md={{size: 6, offset:1}} xs={{size: 10, offset:1}}>
+            <Input
+              className="item-input"
+              placeholder="標題"
+              value={this.state.title}
+              onChange={this.changeTitle}
+            />
+          </Col>
+        </Row>
         <Row>
           { this.renderInputs() }
         </Row>
         <Row style={{marginTop: '5px'}}>
           <Col md={{offset: 1}} xs={{size: 10, offset: 1}}>
-            <Button onClick={()=>this.example('river')} color="primary">台灣河流</Button>{' '}
-            <Button onClick={()=>this.example('dumai')} color="primary">督脈</Button>{' '}
-            <Button onClick={()=>this.example('pi')} color="primary">圓周率</Button>{' '}
+            <Button onClick={()=>this.example('river', '台灣河流')} color="primary">台灣河流</Button>{' '}
+            <Button onClick={()=>this.example('dumai', '督脈')} color="primary">督脈</Button>{' '}
+            <Button onClick={()=>this.example('pi', '圓周率')} color="primary">圓周率</Button>{' '}
             <Button onClick={this.clearAll}>清空</Button>{' '}
             <Button onClick={this.download} color="success">下載電震圖</Button>
           </Col>
@@ -96,6 +116,7 @@ class App extends Component {
           <div className="canvas-wrapper">
             <Canvas
               items={this.state.items}
+              title={this.state.title}
               ref="canvas"
             />
           </div>

@@ -16,12 +16,12 @@ class Canvas extends Component {
     const w = c.width-40;
     const h = c.height-40;
     const ctx = c.getContext("2d");
-    const R = h/2;
-    const r = h/6;
+    const R = w/2;
+    const r = w/6;
     const centerX = w/2+20;
-    const centerY = h/2+20;
+    const centerY = h/2+20 + 60;
     const yOffset = h/35;
-    const fontSize = h/26;
+    const fontSize = w/26;
     const textColor = "#000";
     const heightLightColor = "#FFD480";
     const indexColor = "#F95959";
@@ -81,11 +81,15 @@ class Canvas extends Component {
         ctx.fillText(`${idx+1}.`, e.x-r+yOffset*1.8, e.y);
       }
     });
+
+    // draw title
+    ctx.font = `${w/13}px Helvetica`;
+    ctx.fillText(this.props.title, centerX, h/12);
   }
 
   render() {
     return (
-      <canvas ref="canvas" width="800" height="800">
+      <canvas ref="canvas" width="800" height="900">
         Your browser does not support the HTML5 canvas tag.
       </canvas>
     );
